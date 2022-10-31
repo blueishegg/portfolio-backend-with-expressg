@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "node ./bin/www.js",
-    "dev": "nodemon ./bin/www.js"
+    "dev": "nodemon ./bin/www.js",
+    "dbcreategamestable": "node ./db/scripts/createGamesTable.js",
+    "dbpopulategamestable": "node ./db/scripts/populateGamesTable.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

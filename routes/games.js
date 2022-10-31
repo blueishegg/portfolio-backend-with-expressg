@@ -5,7 +5,7 @@ import {
   getGameById,
   createGame,
   deleteGameById,
-  replaceGameById,
+  // replaceGameById,
   searchGamesByTitle,
 } from "../models/models.js";
 
@@ -18,22 +18,22 @@ import {
 //   const users = await getUsers();
 //   res.json(users);
 // });
-//GET all games
+////-----------GET all games//-----------
 router.get("/", async function (req, res) {
-  let result;
+  let games;
   if (req.query.title !== undefined) {
-    result = await searchGamesByTitle(req.query.title);
+    games = await searchGamesByTitle(req.query.title);
   } else {
-    result = await getAllGames();
+    games = await getAllGames();
   }
   res.json({
     message: "Here is a list of games I have played",
-    payload: result,
+    payload: games,
   });
 });
-
+//-----------GET ALL GAMES BY ID//-----------
 router.get("/:game_id", async function (req, res) {
-  const game_found = await getGameById(Number(req.params.game_id));
+  const game_found = await getGameById(req.params.game_id);
 
   res.json({
     message: `Here is the game I have played with the id of ${req.params.game_id}`,
@@ -41,20 +41,22 @@ router.get("/:game_id", async function (req, res) {
   });
 });
 
+//-----------CREATE GAME-----------
 router.post("/", async function (req, res) {
   const game = await createGame(req.body);
   res.json({ message: "Hey there!", success: true, payload: game });
 });
 
+//-----------DELETE GAME BY ID//-----------
 router.delete("/:id", async function (req, res) {
   const game = await deleteGameById(req.params.id);
   res.json({ success: true, payload: game });
 });
 
-router.patch("/:id", async function (req, res) {
-  const game = await replaceGameById(req.params.id, req.body);
-  res.json({ success: true, payload: game });
-});
+// router.patch("/:id", async function (req, res) {
+//   const game = await replaceGameById(req.params.id, req.body);
+//   res.json({ success: true, payload: game });
+// });
 
 // router.listen(PORT, function () {
 //   console.log(`listening on port ${PORT}`);
