@@ -1,21 +1,4 @@
-//import { games } from "../games-data.js";
 import { query } from "../db/index.js";
-
-// function createNewId() {
-//   let allIds = [];
-//   let newId = 1;
-//   for (let i = 0; i < games.length; i++) {
-//     allIds.push(games[i].id);
-//   }
-//   while (allIds.includes(newId)) {
-//     newId++;
-//   }
-//   return newId;
-// }
-
-// export async function getUsers() {
-//   return users;
-// }
 
 export async function getAllGames() {
   const data = await query(`SELECT * FROM games;`);
@@ -34,16 +17,6 @@ export async function getGameById(game_id) {
 }
 
 export async function createGame(new_game) {
-  // let games = deployGames();
-  // let newID = createNewId();
-  // const toAdd = {
-  //   id: newID,
-  //   title: new_game.title,
-  //   star_rating: new_game.star_rating,
-  //   released_date: new_game.released_date,
-  //   game_description: new_game.game_description,
-  // };
-  // games.push(toAdd);
   let game;
   if (new_game) {
     game = await query(
@@ -95,6 +68,20 @@ export async function deleteGameById(requestedId) {
 //   games.splice(findGameIndex, 1, toAdd);
 //   return games;
 // }
+
+export async function updateRatingById(game_id, update) {
+  let game;
+  if (game_id) {
+    game = await query(
+      `
+    UPDATE games SET star_rating = $1 WHERE id = $2 RETURNING *;`,
+      [update.star_rating, game_id]
+    );
+  } else {
+    return { message: "invalid id" };
+  }
+  return game.rows;
+}
 
 export async function searchGamesByTitle(titleSearched) {
   // let result = games.filter(function (game) {

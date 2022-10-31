@@ -1,4 +1,4 @@
-import express from "express";
+import express, { query } from "express";
 const router = express.Router();
 import {
   getAllGames,
@@ -7,6 +7,7 @@ import {
   deleteGameById,
   // replaceGameById,
   searchGamesByTitle,
+  updateRatingById,
 } from "../models/models.js";
 
 // const app = express();
@@ -58,8 +59,9 @@ router.delete("/:id", async function (req, res) {
 //   res.json({ success: true, payload: game });
 // });
 
-// router.listen(PORT, function () {
-//   console.log(`listening on port ${PORT}`);
-// });
+router.patch("/:id", async function (req, res) {
+  const result = await updateRatingById(req.params.id, req.body);
+  res.json({ message: "Hey there", payload: result });
+});
 
 export default router;
